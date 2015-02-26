@@ -734,6 +734,60 @@ int ReadInputCutFile( const string & InputCutList , vector<cutContainer> & CutCo
 
 }
 
+int ReadInputCutFileWZ( const string & InputCutList , vector<cutContainerWZ> & CutContainerWZ){
+
+
+  ifstream inputFile (InputCutList.c_str());
+  string buffer;
+
+  if(inputFile.fail()) return -1; 
+
+  while(!inputFile.eof()){
+  
+    getline(inputFile,buffer);
+
+    if(buffer.empty() || !buffer.find("#") || buffer==" ") continue ;
+
+    stringstream line(buffer);      
+
+    string layerName, nLep, SFOS, nextra, flavour, ptL1, ptL2, ptL3, etaL, MZcut, MLLcut, MET, nJet,  ptJet1, ptJet2, etaJet,  DetaJJ, Mjj, DetaLL_SC, polarization; 
+     line >> layerName >>  nLep >> SFOS >> nextra >> flavour >> ptL1 >> ptL2 >> ptL3 >> etaL >> MZcut >> MLLcut >> MET >> nJet >>  ptJet1 >> ptJet2 >> etaJet >>  DetaJJ >>  Mjj >> DetaLL_SC >>  polarization;
+     
+
+    cutContainerWZ dummy(layerName,
+	                    stoi(nLep),
+                        stod(SFOS),
+                        stoi(nextra),
+               		    stod(flavour),
+                        stod(ptL1),
+					    stod(ptL2),
+					    stod(ptL3),
+					    stod(etaL),
+					    stod(MZcut),
+   					    stod(MLLcut),
+                        stod(MET),
+					    stod(nJet),
+                        stod(ptJet1),
+                        stod(ptJet2),
+   					    stod(etaJet),
+					    stod(DetaJJ),
+                        stod(Mjj),
+                        stod(DetaLL_SC),
+						//stod(bTagVeto), 
+                        //stod(jetPUID),
+                        stoi(polarization));
+
+    
+    CutContainerWZ.push_back(dummy);
+
+  }
+
+  return CutContainerWZ.size() ;
+
+}
+
+
+
 int ReadInputTrainingFile (const string & InputTrainingList, vector<trainingContainer> & trainContainer){
 
 
